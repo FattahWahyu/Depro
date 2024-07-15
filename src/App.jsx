@@ -7,12 +7,16 @@ import ProfileUmkmPage from './pages/profileumkm.jsx'
 import ResourcePage from './pages/resource.jsx'
 import ImpactPage from './pages/impact.jsx'
 import EditProductPage from './pages/editproduct.jsx'
+import UmkmList from './pages/umkmlist.jsx'
+import ProductList from './pages/productlist.jsx'
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<HomePage />} />
+        <Route path='/umkm/list' element={<UmkmList />} />
+        <Route path='/product/list' element={<ProductList />} />
         <Route path='/product/:id' element={<ProductPage />} />
         <Route path='/umkm/:id' element={<UmkmPage />} />
         <Route path='/umkm/profile' element={<ProfileUmkmPage />} />
