@@ -1,7 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { IconContext } from 'react-icons';
+import React, { useState, useEffect } from "react";
+import { IconContext } from "react-icons";
 
-const Icon = ({ children, nonactive = false, active = false, hidden = false, size = "w-[44px] h-[44px]"}) => {
+const Icon = ({
+  children,
+  nonactive = false,
+  active = false,
+  hidden = false,
+  size = "w-[44px] h-[44px]",
+}) => {
   const childrenWithClassName = React.Children.map(children, (child) => {
     return React.cloneElement(child, {
       className: `${child.props.className} h-full w-full`,
@@ -20,12 +26,16 @@ const Icon = ({ children, nonactive = false, active = false, hidden = false, siz
     }
   };
 
-  const iconColor = isHovered ? '#886345' : '#BBBBBB';
-  const isHidden = hidden ? 'hidden' : '';
+  const iconColor = isHovered ? "#4B70F5" : "#3DC2EC";
+  const isHidden = hidden ? "hidden" : "";
 
   return (
     <IconContext.Provider value={{ color: iconColor }}>
-      <span  className={`${size} ${isHidden} block`} onMouseEnter={hoverHandler} onMouseLeave={hoverHandler} >
+      <span
+        className={`${size} ${isHidden} block`}
+        onMouseEnter={hoverHandler}
+        onMouseLeave={hoverHandler}
+      >
         {childrenWithClassName}
       </span>
     </IconContext.Provider>

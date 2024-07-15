@@ -39,7 +39,7 @@ const QRCodeGenerator = ({ id }) => {
         <QRCode value={`web-app-five-beta.vercel.app/product/${id}`} size={150} />
       </div>
       {id && (
-        <button onClick={handleDownload} className="bg-[#9a7353] hover:bg-[#6d5038] text-white font-bold py-2 px-4 rounded">
+        <button onClick={handleDownload} className="bg-[#05C6FB] hover:bg-[#4B70F5] text-white font-bold py-2 px-4 rounded">
           Download QR Code
         </button>
       )}

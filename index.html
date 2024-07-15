@@ -1,49 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/src/assets/img/logo.png" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trackmate</title>
+    <style>
+      #reader__scan_region {
+        background-image: url("/src/assets/img/logo.png");
+        background-size: cover;
+        background-position: center;
+      }
 
-<head>
-	<meta charset="UTF-8" />
-	<link rel="icon" type="image/svg+xml" href="/src/assets/img/tr-logo.png" />
-	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Trackmate</title>
-	<style>
-		#reader__scan_region {
-			background-image: url("/src/assets/img/tr-logo.png");
-			background-size: cover;
-			background-position: center;
-		}
+      #reader {
+        margin: 16px;
+        border: none !important;
+      }
 
-		#reader {
-			margin: 16px;
-			border: none !important;
-		}
+      #reader > div > img {
+        display: none;
+      }
 
-		#reader>div>img {
-			display: none;
-		}
+      #html5-qrcode-button-camera-permission {
+        background-color: #05c6fb;
+        margin-top: 16px;
+        padding: 4px 8px;
+        border-radius: 16px;
+        color: white;
+        font: arial;
+      }
 
-		#html5-qrcode-button-camera-permission {
-			background-color: #886345;
-			margin-top: 16px;
-			padding: 4px 8px;
-			border-radius: 16px;
-			color: white;
-			font: arial;
-		}
-
-		#html5-qrcode-anchor-scan-type-change {
-			display: none !important;
-		}
-/* 
+      #html5-qrcode-anchor-scan-type-change {
+        display: none !important;
+      }
+      /* 
 		#reader__dashboard_section_csr {
 			color: rgba(255, 255, 255, 0) !important;
 		} */
-	</style>
-</head>
+    </style>
+  </head>
 
-<body class="scrollbar-thin scrollbar-thumb-[#886345] scrollbar-track-[#fff0] h-screen overflow-y-auto overflow-x-hidden ">
-	<div id="root"></div>
-	<script type="module" src="/src/main.jsx"></script>
-</body>
-
+  <body
+    class="scrollbar-thin scrollbar-thumb-[#05C6FB] scrollbar-track-[#fff0] h-screen overflow-y-auto overflow-x-hidden"
+  >
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
 </html>

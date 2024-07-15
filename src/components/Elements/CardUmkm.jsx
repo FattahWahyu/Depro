@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 const CardUmkm = ({id, name, image}) => {
   return (
-    <div className='w-36 h-max'>
+    <div className='w-36 h-max mx-3'>
       <Link to={`umkm/${id}`}>
         <div className="relative hover:scale-110">
           <LazyLoadImage src={image} placeholderSrc={placeholder} className="w-36 h-36 rounded-full overflow-hidden flex flex-col shadow-xl" />

@@ -15,53 +15,50 @@ const SelectSummary = ({ move }) => {
   const [summary] = useState([
     {
       id: 1,
-      name: 'Minimalisasi Carboon Footprints'
+      name: "Minimalisasi Carboon Footprints",
     },
     {
       id: 2,
-      name: 'Efisiensi Energi'
+      name: "Efisiensi Energi",
     },
     {
       id: 3,
-      name: 'Pengelolaan Limbah'
+      name: "Pengelolaan Limbah",
     },
     {
       id: 4,
-      name: 'Penggunaan bahan baku lokal'
+      name: "Penggunaan bahan baku lokal",
     },
     {
       id: 5,
-      name: 'Efisiensi Air'
+      name: "Efisiensi Air",
     },
     {
       id: 6,
-      name: 'Daur Ulang Produk'
+      name: "Daur Ulang Produk",
     },
     {
       id: 7,
-      name: 'Kesejahteraan Pekerja'
+      name: "Kesejahteraan Pekerja",
     },
     {
       id: 8,
-      name: 'Kesehatan dan Keamanan Lingkungan'
+      name: "Kesehatan dan Keamanan Lingkungan",
     },
-  ])
-
+  ]);
 
   useEffect(() => {
-    axios.get(`https://c23-gt01-01.et.r.appspot.com/products/${id}`)
+    axios
+      .get(`https://c23-gt01-01.et.r.appspot.com/products/${id}`)
       .then(function (response) {
         setProduct(response.data.data.product);
-        console.log('product', response.data.data)
-        setSelectedSummary(
-          response.data.data.product.contribution
-        );
+        console.log("product", response.data.data);
+        setSelectedSummary(response.data.data.product.contribution);
       })
       .catch(function (error) {
         console.log(error);
       });
   }, [id, statusPost]);
-
 
   const handleCheckboxChange = (summaryId) => {
     if (selectedSummary.includes(summaryId)) {
@@ -73,7 +70,7 @@ const SelectSummary = ({ move }) => {
 
   const handleSubmit = async (event) => {
     setLoading(true);
-    setStatusPost('Sedang Mengubah Data');
+    setStatusPost("Sedang Mengubah Data");
     event.preventDefault();
     try {
       const token = await accessToken();
@@ -89,14 +86,18 @@ const SelectSummary = ({ move }) => {
           price: product.price,
           description: product.description,
           name: product.name,
-          resources: product.resources.map(item => item.id),
+          resources: product.resources.map((item) => item.id),
           production: product.production,
-          impact: product.impact.map(item => item.id),
+          impact: product.impact.map((item) => item.id),
           contribution: [...selectedSummary],
           category: product.category,
         };
 
-        const response = await axios.put(`https://c23-gt01-01.et.r.appspot.com/products/${id}`, updatedProductData, config);
+        const response = await axios.put(
+          `https://c23-gt01-01.et.r.appspot.com/products/${id}`,
+          updatedProductData,
+          config
+        );
         alert(response.data.message);
 
         setLoading(false);
@@ -108,7 +109,7 @@ const SelectSummary = ({ move }) => {
       console.error("Error updating product:", error);
     }
   };
-  console.log(selectedSummary)
+  console.log(selectedSummary);
   return (
     <div className="w-full p-4 ">
       {loading ? (
@@ -118,7 +119,6 @@ const SelectSummary = ({ move }) => {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="grid gap-4">
-
           {summary.map((smr) => {
             const isChecked = selectedSummary.includes(smr.id);
             return (
@@ -130,11 +130,16 @@ const SelectSummary = ({ move }) => {
                   checked={isChecked}
                   onChange={() => handleCheckboxChange(smr.id)}
                 />
-                <label htmlFor={smr.id} className="ml-2">{smr.name}</label>
+                <label htmlFor={smr.id} className="ml-2">
+                  {smr.name}
+                </label>
               </div>
             );
           })}
-          <button type="submit" className="bg-[#9f7451] text-white py-2 px-4 rounded-md w-full mt-2 hover:bg-[#886345] md:col-span-2">
+          <button
+            type="submit"
+            className="bg-[#9f7451] text-white py-2 px-4 rounded-md w-full mt-2 hover:bg-[#05C6FB] md:col-span-2"
+          >
             Konfirmasi
           </button>
         </form>

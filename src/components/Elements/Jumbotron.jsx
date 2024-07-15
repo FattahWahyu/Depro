@@ -1,10 +1,10 @@
 import { Carousel } from "react-responsive-carousel";
 import Search from "./Search";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-import bg1 from '../../assets/img/bg/bg-1.jpg'
-import bg2 from '../../assets/img/bg/bg-2.jpg'
-import bg3 from '../../assets/img/bg/bg-3.jpg'
-import bg4 from '../../assets/img/bg/bg-4.png'
+import bg1 from '../../assets/img/bg/bg-n-2.jpg'
+import bg2 from '../../assets/img/bg/bg-n-4.jpg'
+import bg3 from '../../assets/img/bg/bg-n-3.jpg'
+import bg4 from '../../assets/img/bg/bg-n-1.jpg'
 
 const Jumbotron = ({ jumbotronRef, showSearch }) => {
 

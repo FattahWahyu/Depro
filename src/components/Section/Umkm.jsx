@@ -1,19 +1,25 @@
+import React from "react";
 import CardUmkm from "../Elements/CardUmkm";
 import Section from "./Index";
 
 const Umkm = ({ umkm }) => {
+  // Duplicate the umkm list to create the infinite scroll effect
+  const doubledUmkm = [...umkm, ...umkm];
+
   return (
     <Section title="UMKM Partner">
-      <div className="flex gap-6 flex-wrap mt-4">
-        {
-          umkm.length > 0
-            ? (
-              umkm.map((umkm, index) => (
-                <CardUmkm id={umkm.id} key={index} name={umkm.name} image={umkm.logo} />
-              ))
-            )
-            : (<p className="menu-list__empty">Not Found</p>)
-        }
+      <div className="scroll-container mt-4">
+        <div className="scroll-content">
+          {doubledUmkm.map((umkmItem, index) => (
+            <CardUmkm
+              id={umkmItem.id}
+              key={index}
+              name={umkmItem.name}
+              image={umkmItem.logo}
+              className="card mx-3"
+            />
+          ))}
+        </div>
       </div>
     </Section>
   );

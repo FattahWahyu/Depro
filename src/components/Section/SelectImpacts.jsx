@@ -14,10 +14,11 @@ const SelectImpacts = ({ move }) => {
   const [selectedImpacts, setSelectedImpacts] = useState([]);
 
   useEffect(() => {
-    axios.get(`https://c23-gt01-01.et.r.appspot.com/products/${id}`)
+    axios
+      .get(`https://c23-gt01-01.et.r.appspot.com/products/${id}`)
       .then(function (response) {
         setProduct(response.data.data.product);
-        console.log('product', response.data.data)
+        console.log("product", response.data.data);
         setSelectedImpacts(
           response.data.data.product.impact.map((impact) => impact.id) || []
         );
@@ -25,7 +26,7 @@ const SelectImpacts = ({ move }) => {
       .catch(function (error) {
         console.log(error);
       });
-  }, [id,statusPost]);
+  }, [id, statusPost]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -34,10 +35,13 @@ const SelectImpacts = ({ move }) => {
         if (token) {
           const config = {
             headers: {
-              Authorization: `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           };
-          const response = await axios.get(`https://c23-gt01-01.et.r.appspot.com/impacts`, config);
+          const response = await axios.get(
+            `https://c23-gt01-01.et.r.appspot.com/impacts`,
+            config
+          );
 
           setImpacts(response.data.data.impacts || []);
         }
@@ -59,7 +63,7 @@ const SelectImpacts = ({ move }) => {
 
   const handleSubmit = async (event) => {
     setLoading(true);
-    setStatusPost('Sedang Mengubah Data');
+    setStatusPost("Sedang Mengubah Data");
     event.preventDefault();
     try {
       const token = await accessToken();
@@ -75,14 +79,18 @@ const SelectImpacts = ({ move }) => {
           price: product.price,
           description: product.description,
           name: product.name,
-          resources: product.resources.map(item => item.id),
+          resources: product.resources.map((item) => item.id),
           production: product.production,
-          impact:  selectedImpacts,
+          impact: selectedImpacts,
           contribution: product.contribution,
           category: product.category,
         };
 
-        const response = await axios.put(`https://c23-gt01-01.et.r.appspot.com/products/${id}`, updatedProductData, config);
+        const response = await axios.put(
+          `https://c23-gt01-01.et.r.appspot.com/products/${id}`,
+          updatedProductData,
+          config
+        );
         alert(response.data.message);
 
         setLoading(false);
@@ -104,7 +112,6 @@ const SelectImpacts = ({ move }) => {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="grid gap-4">
-
           {impacts.map((imp) => {
             const isChecked = selectedImpacts.includes(imp.id);
             return (
@@ -116,12 +123,17 @@ const SelectImpacts = ({ move }) => {
                   checked={isChecked}
                   onChange={() => handleCheckboxChange(imp.id)}
                 />
-                <label htmlFor={imp.id} className="ml-2">{imp.name}</label>
+                <label htmlFor={imp.id} className="ml-2">
+                  {imp.name}
+                </label>
               </div>
             );
           })}
-          <div onClick={() => move('Tambah Impact')}> + Tambah Impacts</div>
-          <button type="submit" className="bg-[#9f7451] text-white py-2 px-4 rounded-md w-full mt-2 hover:bg-[#886345] md:col-span-2">
+          <div onClick={() => move("Tambah Impact")}> + Tambah Impacts</div>
+          <button
+            type="submit"
+            className="bg-[#9f7451] text-white py-2 px-4 rounded-md w-full mt-2 hover:bg-[#05C6FB] md:col-span-2"
+          >
             Konfirmasi
           </button>
         </form>

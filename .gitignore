@@ -24,3 +24,4 @@ dist-ssr
 *.sw?
 a.json
 .env.local
+.env

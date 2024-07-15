@@ -1,8 +1,8 @@
-import { useState } from 'react';
-import { MdClose } from 'react-icons/md';
-import Icon from '../Elements/Icon';
+import { useState } from "react";
+import { MdClose } from "react-icons/md";
+import Icon from "../Elements/Icon";
 
-const ModalLayout = ({ title = 'Pop up', children = 'test', onClose }) => {
+const ModalLayout = ({ title = "Pop up", children = "test", onClose }) => {
   const [isOpen, setIsOpen] = useState(true);
 
   const handleClose = () => {
@@ -13,7 +13,7 @@ const ModalLayout = ({ title = 'Pop up', children = 'test', onClose }) => {
   };
 
   const handleOutsideClick = (event) => {
-    if (event.target.classList.contains('backdrop-blur-sm')) {
+    if (event.target.classList.contains("backdrop-blur-sm")) {
       handleClose();
     }
   };
@@ -25,12 +25,14 @@ const ModalLayout = ({ title = 'Pop up', children = 'test', onClose }) => {
     >
       <div className="bg-white rounded-2xl min-h-[100px] min-w-[100px] w-full md:w-2/3 lg:w-[600px]  p-4  shadow-2xl flex flex-col max-h-[90vh] ">
         <div className="pl-4 flex justify-between items-center w-full h-full  mb-2 ">
-          <h1 className='font-inter font-semibold text-[#886345]'>{title}</h1>
+          <h1 className="font-inter font-semibold text-[#4B70F5] text-2xl">{title}</h1>
           <Icon>
             <MdClose onClick={handleClose} />
           </Icon>
         </div>
-        <div className="w-full h-full overflow-y-auto scrollbar-thin scrollbar-thumb-[#886345] scrollbar-track-[#BBB]">{children}</div>
+        <div className="w-full h-full overflow-y-auto scrollbar-thin scrollbar-thumb-[#05C6FB] scrollbar-track-[#BBB]">
+          {children}
+        </div>
       </div>
     </div>
   ) : null;

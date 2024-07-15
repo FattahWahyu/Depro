@@ -1,6 +1,6 @@
 import { MdPhotoCamera } from "react-icons/md";
-import React, { useState } from 'react';
-import Icon from '../Elements/Icon';
+import React, { useState } from "react";
+import Icon from "../Elements/Icon";
 import accessToken from "../../utils/accesToken";
 import axios from "axios";
 import Loading from "../Elements/Loading";
@@ -9,15 +9,16 @@ import { useEffect } from "react";
 
 const EditHistory = ({ move }) => {
   const { id } = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [statusPost, setStatusPost] = useState('Mulai Mengupload');
+  const [statusPost, setStatusPost] = useState("Mulai Mengupload");
   const [selectedFile, setSelectedFile] = useState(false);
-  const [description, setDescription] = useState('');
-  const [fileLocation, setFileLocation] = useState('https://storage.googleapis.com/trackmate_bucket1/assets/images/placeholder.jpg');
+  const [description, setDescription] = useState("");
+  const [fileLocation, setFileLocation] = useState(
+    "https://storage.googleapis.com/trackmate_bucket1/assets/images/placeholder.jpg"
+  );
   const [fileLocationUpdated, setFileLocationUpdated] = useState(false);
   const [umkm, setUmkm] = useState(false);
-
 
   const handleDescriptionChange = (event) => {
     setDescription(event.target.value);
@@ -31,7 +32,9 @@ const EditHistory = ({ move }) => {
     if (file) {
       setFileLocation(URL.createObjectURL(file));
     } else {
-      setFileLocation('https://storage.googleapis.com/trackmate_bucket1/assets/images/placeholder.jpg');
+      setFileLocation(
+        "https://storage.googleapis.com/trackmate_bucket1/assets/images/placeholder.jpg"
+      );
     }
   };
 
@@ -43,18 +46,21 @@ const EditHistory = ({ move }) => {
         if (token) {
           const config = {
             headers: {
-              Authorization: `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           };
 
-          const response = await axios.get(`https://c23-gt01-01.et.r.appspot.com/umkm/profile`, config);
+          const response = await axios.get(
+            `https://c23-gt01-01.et.r.appspot.com/umkm/profile`,
+            config
+          );
           setUmkm(response.data.data.umkm);
           if (response.data.data.umkm.history !== null) {
             setDescription(response.data.data.umkm.history.text);
             setFileLocation(response.data.data.umkm.history.image);
           }
         } else {
-          console.log('No access token available.');
+          console.log("No access token available.");
         }
       } catch (error) {
         console.error(error);
@@ -64,7 +70,6 @@ const EditHistory = ({ move }) => {
     fetchData();
   }, []);
 
-
   const handleSubmit = async (event) => {
     setLoading(true);
     event.preventDefault();
@@ -72,46 +77,43 @@ const EditHistory = ({ move }) => {
     const file = selectedFile;
 
     try {
-
       if (selectedFile) {
-        setStatusPost('Sedang Mengupload Gambar')
+        setStatusPost("Sedang Mengupload Gambar");
         const formData = new FormData();
-        formData.append('data', file);
+        formData.append("data", file);
 
         const token = await accessToken();
 
         if (token) {
           const config = {
             headers: {
-              Authorization: `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           };
 
-          const response = await axios.post('https://c23-gt01-01.et.r.appspot.com/upload/images', formData, config);
-          console.log('Server response:', response.data.data.fileLocation);
+          const response = await axios.post(
+            "https://c23-gt01-01.et.r.appspot.com/upload/images",
+            formData,
+            config
+          );
+          console.log("Server response:", response.data.data.fileLocation);
           setFileLocation(response.data.data.fileLocation);
           setFileLocationUpdated(true);
-
         } else {
-          console.log('No access token available.');
+          console.log("No access token available.");
         }
       } else {
         setFileLocationUpdated(true);
       }
-
-
     } catch (error) {
-      console.error('Error uploading image:', error);
-
+      console.error("Error uploading image:", error);
     } finally {
-      setStatusPost('Upload Gambar Selesai')
-      setStatusPost('Sedang Mengupload Data')
-
-
+      setStatusPost("Upload Gambar Selesai");
+      setStatusPost("Sedang Mengupload Data");
     }
   };
   useEffect(() => {
-    setStatusPost('Sedang Mengupload Data')
+    setStatusPost("Sedang Mengupload Data");
     const fetchData = async () => {
       if (fileLocationUpdated) {
         setFileLocationUpdated(false);
@@ -144,7 +146,11 @@ const EditHistory = ({ move }) => {
               contact: umkm.contact,
             };
 
-            const response = await axios.put(`https://c23-gt01-01.et.r.appspot.com/umkm`, updatedUmkmData, config);
+            const response = await axios.put(
+              `https://c23-gt01-01.et.r.appspot.com/umkm`,
+              updatedUmkmData,
+              config
+            );
             alert(response.data.message);
 
             setLoading(false);
@@ -152,32 +158,40 @@ const EditHistory = ({ move }) => {
           } else {
             console.log("No access token available.");
           }
-
         } catch (error) {
-          console.error('Error posting resource:', error);
+          console.error("Error posting resource:", error);
         } finally {
-          setStatusPost('Selesai')
-          setLoading(false)
+          setStatusPost("Selesai");
+          setLoading(false);
           // navigate(0);
         }
       }
     };
 
     fetchData();
-  }, [fileLocationUpdated, fileLocation, description, statusPost, navigate, id, umkm]);
-
+  }, [
+    fileLocationUpdated,
+    fileLocation,
+    description,
+    statusPost,
+    navigate,
+    id,
+    umkm,
+  ]);
 
   return (
     <div className="w-full p-4 ">
       {loading ? (
         <div className="loading-indicator">
           <Loading />
-          <h1 className='text-sm font-inter mt-1 text-center'>{statusPost}</h1>
+          <h1 className="text-sm font-inter mt-1 text-center">{statusPost}</h1>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className='grid gap-4'>
+        <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="mb-4 md:col-span-2">
-            <label htmlFor="fileInput" className="block font-semibold mb-1">Gambar</label>
+            <label htmlFor="fileInput" className="block font-semibold mb-1">
+              Gambar
+            </label>
             <div className="w-full h-72 border rounded-md relative flex justify-center">
               {selectedFile ? (
                 <img
@@ -192,7 +206,10 @@ const EditHistory = ({ move }) => {
                   className="w-full h-full object-contain rounded-md"
                 />
               )}
-              <label htmlFor="fileInput" className="w-full border flex justify-center items-center h-full absolute rounded-md cursor-pointer top-0 ">
+              <label
+                htmlFor="fileInput"
+                className="w-full border flex justify-center items-center h-full absolute rounded-md cursor-pointer top-0 "
+              >
                 {/* {(!selectedFile) && <Icon active><MdPhotoCamera /></Icon>} */}
               </label>
             </div>
@@ -203,11 +220,12 @@ const EditHistory = ({ move }) => {
               className="hidden"
               accept="image/*"
             />
-
           </div>
 
           <div className="mb-4 md:col-span-2">
-            <label htmlFor="description" className="block font-semibold mb-1">Text</label>
+            <label htmlFor="description" className="block font-semibold mb-1">
+              Text
+            </label>
             <textarea
               type="text"
               id="description"
@@ -218,13 +236,15 @@ const EditHistory = ({ move }) => {
               required
             />
           </div>
-          <button type="submit" className="bg-[#9f7451] text-white py-2 px-4 rounded-md w-full mt-2 hover:bg-[#886345] md:col-span-2">
+          <button
+            type="submit"
+            className="bg-[#9f7451] text-white py-2 px-4 rounded-md w-full mt-2 hover:bg-[#05C6FB] md:col-span-2"
+          >
             Konfirmasi
           </button>
-
-        </form>)}
+        </form>
+      )}
     </div>
-
   );
 };
 

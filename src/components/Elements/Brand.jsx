@@ -1,4 +1,4 @@
-import logo from '../../assets/img/tr-logo.png'
+import logo from '../../assets/img/logo.png'
 import Icon from './Icon';
 
 const Brand = () => {

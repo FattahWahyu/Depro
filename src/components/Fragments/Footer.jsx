@@ -2,8 +2,8 @@ import FooterBox from "../Elements/FooterBox";
 
 const Footer = () => {
   return (
-    <footer className="h-min w-full bg-slate-800 mt-8">
-      <FooterBox/>
+    <footer className="h-min w-full bg-[#4B70F5] mt-8">
+      <FooterBox />
     </footer>
   );
 };

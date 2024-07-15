@@ -1,0 +1,22 @@
+/* styles.css */
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+.scroll-container {
+  @apply flex overflow-hidden whitespace-nowrap;
+}
+
+.scroll-content {
+  @apply flex;
+  animation: scroll 200s linear infinite;
+}
+
+.card {
+  @apply flex-none mr-4;
+}

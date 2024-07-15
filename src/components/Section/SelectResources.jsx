@@ -14,12 +14,14 @@ const SelectResource = ({ move }) => {
   const [selectedResources, setSelectedResources] = useState([]);
 
   useEffect(() => {
-    axios.get(`https://c23-gt01-01.et.r.appspot.com/products/${id}`)
+    axios
+      .get(`https://c23-gt01-01.et.r.appspot.com/products/${id}`)
       .then(function (response) {
         setProduct(response.data.data.product);
-        console.log('product', response.data.data)
+        console.log("product", response.data.data);
         setSelectedResources(
-          response.data.data.product.resources.map((resource) => resource.id) || []
+          response.data.data.product.resources.map((resource) => resource.id) ||
+            []
         );
       })
       .catch(function (error) {
@@ -34,10 +36,13 @@ const SelectResource = ({ move }) => {
         if (token) {
           const config = {
             headers: {
-              Authorization: `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           };
-          const response = await axios.get(`https://c23-gt01-01.et.r.appspot.com/resources`, config);
+          const response = await axios.get(
+            `https://c23-gt01-01.et.r.appspot.com/resources`,
+            config
+          );
 
           setResources(response.data.data.resources || []);
         }
@@ -59,7 +64,7 @@ const SelectResource = ({ move }) => {
 
   const handleSubmit = async (event) => {
     setLoading(true);
-    setStatusPost('Sedang Mengubah Data');
+    setStatusPost("Sedang Mengubah Data");
     event.preventDefault();
     try {
       const token = await accessToken();
@@ -77,12 +82,16 @@ const SelectResource = ({ move }) => {
           name: product.name,
           resources: selectedResources,
           production: product.production,
-          impact: product.impact.map(item => item.id),
+          impact: product.impact.map((item) => item.id),
           contribution: product.contribution,
           category: product.category,
         };
 
-        const response = await axios.put(`https://c23-gt01-01.et.r.appspot.com/products/${id}`, updatedProductData, config);
+        const response = await axios.put(
+          `https://c23-gt01-01.et.r.appspot.com/products/${id}`,
+          updatedProductData,
+          config
+        );
         alert(response.data.message);
 
         setLoading(false);
@@ -104,7 +113,6 @@ const SelectResource = ({ move }) => {
         </div>
       ) : (
         <form onSubmit={handleSubmit} className="grid gap-4">
-
           {resources.map((reso) => {
             const isChecked = selectedResources.includes(reso.id);
             return (
@@ -116,12 +124,20 @@ const SelectResource = ({ move }) => {
                   checked={isChecked}
                   onChange={() => handleCheckboxChange(reso.id)}
                 />
-                <label htmlFor={reso.id} className="ml-2">{reso.name}</label>
+                <label htmlFor={reso.id} className="ml-2">
+                  {reso.name}
+                </label>
               </div>
             );
           })}
-          <div onClick={() => move('Tambah Bahan Baku')}> + Tambah Resources</div>
-          <button type="submit" className="bg-[#9f7451] text-white py-2 px-4 rounded-md w-full mt-2 hover:bg-[#886345] md:col-span-2">
+          <div onClick={() => move("Tambah Bahan Baku")}>
+            {" "}
+            + Tambah Resources
+          </div>
+          <button
+            type="submit"
+            className="bg-[#9f7451] text-white py-2 px-4 rounded-md w-full mt-2 hover:bg-[#05C6FB] md:col-span-2"
+          >
             Konfirmasi
           </button>
         </form>

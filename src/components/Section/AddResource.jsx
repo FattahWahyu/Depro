@@ -1,7 +1,7 @@
 import { MdPhotoCamera } from "react-icons/md";
-import React, { useState, useEffect } from 'react';
-import MapPicker from '../Elements/MapPicker';
-import Icon from '../Elements/Icon';
+import React, { useState, useEffect } from "react";
+import MapPicker from "../Elements/MapPicker";
+import Icon from "../Elements/Icon";
 import accessToken from "../../utils/accesToken";
 import axios from "axios";
 import Loading from "../Elements/Loading";
@@ -10,14 +10,16 @@ import { useNavigate } from "react-router-dom";
 const AddResource = ({ move }) => {
   const navigate = useNavigate();
   const [loading, setLoading] = useState(false);
-  const [statusPost, setStatusPost] = useState('Mulai Mengupload');
+  const [statusPost, setStatusPost] = useState("Mulai Mengupload");
   const [selectedFile, setSelectedFile] = useState(false);
-  const [name, setName] = useState('');
+  const [name, setName] = useState("");
   const [umkm, setUmkm] = useState(null);
-  const [location, setLocation] = useState('');
-  const [description, setDescription] = useState('');
+  const [location, setLocation] = useState("");
+  const [description, setDescription] = useState("");
   const [position, setPosition] = useState({ lat: -6.2088, lng: 106.8456 });
-  const [fileLocation, setFileLocation] = useState('https://storage.googleapis.com/trackmate_bucket1/assets/images/placeholder.jpg');
+  const [fileLocation, setFileLocation] = useState(
+    "https://storage.googleapis.com/trackmate_bucket1/assets/images/placeholder.jpg"
+  );
   const [fileLocationUpdated, setFileLocationUpdated] = useState(false);
 
   const handleNameChange = (event) => {
@@ -43,7 +45,6 @@ const AddResource = ({ move }) => {
     });
   };
 
-
   const handleLocationChange = (event) => {
     setLocation(event.target.value);
   };
@@ -59,14 +60,10 @@ const AddResource = ({ move }) => {
     });
   };
 
-
-
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
   };
-
-
 
   const handleSubmit = async (event) => {
     setLoading(true);
@@ -75,54 +72,48 @@ const AddResource = ({ move }) => {
     const file = selectedFile;
 
     try {
-
-
       if (selectedFile) {
-        setStatusPost('Sedang Mengupload Gambar')
+        setStatusPost("Sedang Mengupload Gambar");
         const formData = new FormData();
-        formData.append('data', file);
+        formData.append("data", file);
 
         const token = await accessToken();
 
         if (token) {
           const config = {
             headers: {
-              Authorization: `Bearer ${token}`
-            }
+              Authorization: `Bearer ${token}`,
+            },
           };
 
-          const response = await axios.post('https://c23-gt01-01.et.r.appspot.com/upload/images', formData, config);
-          console.log('Server response:', response.data.data.fileLocation);
+          const response = await axios.post(
+            "https://c23-gt01-01.et.r.appspot.com/upload/images",
+            formData,
+            config
+          );
+          console.log("Server response:", response.data.data.fileLocation);
           setFileLocation(response.data.data.fileLocation);
           setFileLocationUpdated(true);
-
         } else {
-          console.log('No access token available.');
+          console.log("No access token available.");
         }
       } else {
         setFileLocationUpdated(true);
       }
-
-
-
     } catch (error) {
-      console.error('Error uploading image:', error);
-
+      console.error("Error uploading image:", error);
     } finally {
-      setStatusPost('Upload Gambar Selesai')
-
+      setStatusPost("Upload Gambar Selesai");
     }
   };
 
-
   useEffect(() => {
-    setStatusPost('Sedang Mengupload Data')
+    setStatusPost("Sedang Mengupload Data");
     const fetchData = async () => {
       if (fileLocationUpdated) {
-
         try {
           setFileLocationUpdated(false);
-          setStatusPost('Sedang Mengupload Data')
+          setStatusPost("Sedang Mengupload Data");
           let imageLocation = fileLocation; // Ambil lokasi gambar dari respons upload
 
           const token = await accessToken();
@@ -130,8 +121,8 @@ const AddResource = ({ move }) => {
           if (token) {
             const config = {
               headers: {
-                Authorization: `Bearer ${token}`
-              }
+                Authorization: `Bearer ${token}`,
+              },
             };
             const resourceData = {
               name: name,
@@ -139,43 +130,59 @@ const AddResource = ({ move }) => {
               location: {
                 lat: position.lat,
                 lng: position.lng,
-                name: location
+                name: location,
               },
               umkm: umkm,
-              description: description
+              description: description,
             };
 
-            const response = await axios.post('https://c23-gt01-01.et.r.appspot.com/resources', resourceData, config);
-            setStatusPost('Selesai')
+            const response = await axios.post(
+              "https://c23-gt01-01.et.r.appspot.com/resources",
+              resourceData,
+              config
+            );
+            setStatusPost("Selesai");
             alert(response.data.message);
           } else {
-            console.log('No access token available.');
+            console.log("No access token available.");
           }
         } catch (error) {
-          console.error('Error posting resource:', error);
+          console.error("Error posting resource:", error);
         } finally {
-          setStatusPost('Mulai Mengupload')
-          setLoading(false)
+          setStatusPost("Mulai Mengupload");
+          setLoading(false);
           navigate(0);
         }
       }
     };
 
     fetchData();
-  }, [fileLocationUpdated, fileLocation, description, name, statusPost, navigate, position.lat, position.lng, location, umkm]);
-
+  }, [
+    fileLocationUpdated,
+    fileLocation,
+    description,
+    name,
+    statusPost,
+    navigate,
+    position.lat,
+    position.lng,
+    location,
+    umkm,
+  ]);
 
   return (
     <div className="w-full p-4 ">
       {loading ? (
         <div className="loading-indicator">
           <Loading />
-          <h1 className='text-sm font-inter mt-1 text-center'>{statusPost}</h1>
+          <h1 className="text-sm font-inter mt-1 text-center">{statusPost}</h1>
         </div>
       ) : (
-        <form onSubmit={handleSubmit} className='grid gap-4'>
+        <form onSubmit={handleSubmit} className="grid gap-4">
           <div className="mb-4 md:col-span-2">
-            <label htmlFor="fileInput" className="block font-semibold mb-1">Gambar</label>
+            <label htmlFor="fileInput" className="block font-semibold mb-1">
+              Gambar
+            </label>
             <div className="w-full h-72 border rounded-md  relative flex justify-center">
               {selectedFile && (
                 <img
@@ -185,8 +192,15 @@ const AddResource = ({ move }) => {
                 />
               )}
 
-              <label htmlFor="fileInput" className="w-full border flex justify-center items-center h-full absolute rounded-md cursor-pointer top-0 ">
-                {(!selectedFile) && <Icon active><MdPhotoCamera /></Icon>}
+              <label
+                htmlFor="fileInput"
+                className="w-full border flex justify-center items-center h-full absolute rounded-md cursor-pointer top-0 "
+              >
+                {!selectedFile && (
+                  <Icon active>
+                    <MdPhotoCamera />
+                  </Icon>
+                )}
               </label>
             </div>
             <input
@@ -196,10 +210,11 @@ const AddResource = ({ move }) => {
               className="hidden"
               accept="image/*"
             />
-
           </div>
           <div className="mb-4 md:col-span-2">
-            <label htmlFor="name" className="block font-semibold mb-1 ">Nama Bahan Baku</label>
+            <label htmlFor="name" className="block font-semibold mb-1 ">
+              Nama Bahan Baku
+            </label>
             <input
               type="text"
               id="name"
@@ -211,14 +226,21 @@ const AddResource = ({ move }) => {
             />
           </div>
 
-
-          <div className='mb-4 md:col-span-2'>
-            <label htmlFor="map" className="block font-semibold mb-1">Lokasi</label>
-            <MapPicker id="map" handleGet={handleMapClick} position={position} />
+          <div className="mb-4 md:col-span-2">
+            <label htmlFor="map" className="block font-semibold mb-1">
+              Lokasi
+            </label>
+            <MapPicker
+              id="map"
+              handleGet={handleMapClick}
+              position={position}
+            />
           </div>
 
           <div className="mb-4 ">
-            <label htmlFor="lat" className="block font-semibold mb-1">Latitude</label>
+            <label htmlFor="lat" className="block font-semibold mb-1">
+              Latitude
+            </label>
             <input
               type="text"
               id="lat"
@@ -231,7 +253,9 @@ const AddResource = ({ move }) => {
           </div>
 
           <div className="mb-4">
-            <label htmlFor="lng" className="block font-semibold mb-1">Longitude</label>
+            <label htmlFor="lng" className="block font-semibold mb-1">
+              Longitude
+            </label>
             <input
               type="text"
               id="lng"
@@ -243,7 +267,9 @@ const AddResource = ({ move }) => {
             />
           </div>
           <div className="mb-4 md:col-span-2">
-            <label htmlFor="location" className="block font-semibold mb-1">Alamat</label>
+            <label htmlFor="location" className="block font-semibold mb-1">
+              Alamat
+            </label>
             <input
               type="text"
               id="location"
@@ -255,7 +281,9 @@ const AddResource = ({ move }) => {
             />
           </div>
           <div className="mb-4 md:col-span-2">
-            <label htmlFor="umkm" className="block font-semibold mb-1">UMKM (Optional)</label>
+            <label htmlFor="umkm" className="block font-semibold mb-1">
+              UMKM (Optional)
+            </label>
             <input
               type="text"
               id="umkm"
@@ -267,7 +295,9 @@ const AddResource = ({ move }) => {
           </div>
 
           <div className="mb-4 md:col-span-2">
-            <label htmlFor="description" className="block font-semibold mb-1">Deskripsi</label>
+            <label htmlFor="description" className="block font-semibold mb-1">
+              Deskripsi
+            </label>
             <textarea
               type="text"
               id="description"
@@ -278,13 +308,15 @@ const AddResource = ({ move }) => {
               required
             />
           </div>
-          <button type="submit" className="bg-[#9f7451] text-white py-2 px-4 rounded-md w-full mt-2 hover:bg-[#886345] md:col-span-2">
+          <button
+            type="submit"
+            className="bg-[#9f7451] text-white py-2 px-4 rounded-md w-full mt-2 hover:bg-[#05C6FB] md:col-span-2"
+          >
             Konfirmasi
           </button>
-
-        </form>)}
+        </form>
+      )}
     </div>
-
   );
 };
 
