@@ -2,12 +2,10 @@ import HomeLayout from "../components/Layouts/HomeLayouts";
 import TopDetail from "../components/Section/TopDetail";
 import Resources from "../components/Section/Resources";
 import { useParams } from "react-router-dom";
-import { getDetail } from "../utils/data";
 import Process from "../components/Section/Process";
 import Impact from "../components/Section/Impact";
 import Produsen from "../components/Section/Produsen";
 import axios from 'axios';
-import ErrorPage from "./404";
 import React, { useState, useEffect } from "react";
 import Loading from "../components/Elements/Loading";
 

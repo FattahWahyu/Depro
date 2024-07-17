@@ -1,13 +1,29 @@
-import HomeLayout from "../components/Layouts/HomeLayouts";
-import Products from "../components/Section/Products";
-import Umkm from "../components/Section/Umkm";
 import React, { useState, useEffect } from "react";
-import Loading from "../components/Elements/Loading";
 import { getProducts } from "../services/product.service";
-import { getUmkm } from "../services/umkm.service";
+import Brand from "../components/Elements/Brand";
+import accessToken from "../utils/accesToken";
+import ErrorPage from "./404";
 
 const ProductList = () => {
+  const [notLogin, setNotLogin] = useState(true);
   const [products, setProducts] = useState(null);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const token = await accessToken();
+        if (token) {
+          setNotLogin(false);
+        } else {
+          setNotLogin(true);
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   useEffect(() => {
     getProducts((data) => {
@@ -17,11 +33,21 @@ const ProductList = () => {
     });
   }, []);
 
+  if (notLogin) {
+    return <ErrorPage />;
+  }
+
   return (
     <>
-      <h1 className="text-center w-full text-2xl my-5">Rekap Data Produk</h1>
+      <div className="flex justify-between items-center p-3">
+        <Brand />
+        <h1 className="text-center w-full text-2xl my-5 font-bold">
+          Rekap Data Produk
+        </h1>
+        <div className="w-20 h-10"></div>
+      </div>
       <div
-        className="fixed top-4 right-5 p-4 bg-blue-500 text-white rounded-md"
+        className="fixed top-4 right-5 p-4 bg-blue-500 text-white rounded-md print:hidden"
         onClick={() => window.print()}
       >
         Print
@@ -45,7 +71,6 @@ const ProductList = () => {
                     {index + 1}
                   </td>
                   <td className="border border-gray-400 p-2">{product.name}</td>
-
                   <td className="border border-gray-400 p-2 flex justify-center">
                     <img
                       src={product.image[0]}

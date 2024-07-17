@@ -1,11 +1,6 @@
-import HomeLayout from "../components/Layouts/HomeLayouts";
-import FIlter from "../components/Section/Filter";
-import Products from "../components/Section/Products";
-import Umkm from "../components/Section/Umkm";
 import React, { useState, useEffect } from "react";
-import Loading from "../components/Elements/Loading";
-import { getProducts } from "../services/product.service";
 import { getContactUmkm, getUmkm } from "../services/umkm.service";
+import Brand from "../components/Elements/Brand";
 
 const UmkmList = () => {
   const contact = () => {
@@ -22,9 +17,15 @@ const UmkmList = () => {
 
   return (
     <>
-      <h1 className="text-center w-full text-2xl my-5">Rekap Data UMKM</h1>
+      <div className="flex justify-between items-center p-3">
+        <Brand />
+        <h1 className="text-center w-full text-2xl my-5 font-bold">
+          Rekap Data UMKM
+        </h1>
+        <div className="w-20 h-10"></div>
+      </div>
       <div
-        className="fixed top-4 right-5 p-4 bg-blue-500 text-white rounded-md"
+        className="fixed top-4 right-5 p-4 bg-blue-500 text-white rounded-md print:hidden"
         onClick={() => window.print()}
       >
         Print
