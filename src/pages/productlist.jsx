@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
-import { getProducts } from "../services/product.service";
 import Brand from "../components/Elements/Brand";
 import accessToken from "../utils/accesToken";
 import ErrorPage from "./404";
+import axios from "axios";
+import { Helmet } from "react-helmet";
+import { getProducts } from "../services/product.service";
 
 const ProductList = () => {
   const [notLogin, setNotLogin] = useState(true);
   const [products, setProducts] = useState(null);
+  const [id, setId] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -26,12 +29,67 @@ const ProductList = () => {
   }, []);
 
   useEffect(() => {
-    getProducts((data) => {
-      setTimeout(() => {
-        setProducts(data);
-      }, 700);
-    });
-  }, []);
+    const fetchData = async () => {
+      try {
+        const token = await accessToken();
+        if (token) {
+          const config = {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          };
+
+          const response = await axios.get(
+            `https://c23-gt01-01.et.r.appspot.com/umkm/profile`,
+            config
+          );
+          setId(response.data.data.umkm.id);
+        } else {
+          setNotLogin(true);
+        }
+      } catch (error) {
+        if (error.response.data.data === null) {
+          try {
+            const token = await accessToken();
+            if (token) {
+              const config = {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              };
+
+              const response = await axios.get(
+                `https://c23-gt01-01.et.r.appspot.com/users/profile`,
+                config
+              );
+              if (response.data.data.user.username === "nurrozaaq") {
+                getProducts((data) => {
+                  setProducts(data);
+                });
+              }
+            } else {
+              setNotLogin(true);
+            }
+          } catch (error) {
+            console.log(error);
+          }
+        }
+      }
+    };
+
+    fetchData();
+  }, [id]);
+
+  useEffect(() => {
+    axios
+      .get(`https://c23-gt01-01.et.r.appspot.com/products/umkm/${id}`)
+      .then(function (response) {
+        setProducts(response.data.data.products);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  }, [id]);
 
   if (notLogin) {
     return <ErrorPage />;
@@ -39,6 +97,9 @@ const ProductList = () => {
 
   return (
     <>
+      <Helmet>
+        <title>Rekap Produk | Depro</title>
+      </Helmet>
       <div className="flex justify-between items-center p-3">
         <Brand />
         <h1 className="text-center w-full text-2xl my-5 font-bold">

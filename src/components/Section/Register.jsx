@@ -117,7 +117,7 @@ const Register = ({ move }) => {
             Confirm Password
           </label>
           <input
-            type="password2"
+            type="password"
             id="password2"
             value={password2}
             onChange={handlePassword2Change}

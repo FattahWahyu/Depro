@@ -6,7 +6,7 @@ const ErrorPage = () => {
   return (
     <HomeLayout nodiv>
       <Helmet>
-        <title>404 | Trackmate</title>
+        <title>404 | Depro</title>
       </Helmet>
       <div className="w-full h-[100vh] flex justify-center items-center">
         <h1 className="font-inter text-7xl text-[#BBB]">404 | Not Found</h1>

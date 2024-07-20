@@ -104,6 +104,8 @@ const Account = ({ move }) => {
     }
   };
 
+  console.log(profile);
+
   return (
     <div className="w-full p-4 ">
       {loading ? (
@@ -150,26 +152,32 @@ const Account = ({ move }) => {
               </Link>
             </>
           ) : (
-            <div
-              onClick={() => move("Registrasi UMKM")}
-              className=" h-32 font-inter outline py-2 px-4 rounded-md mt-2 hover:scale-105 flex flex-col justify-around "
-            >
-              <Icon active>
-                <MdAddBusiness />
-              </Icon>
-              Buat UMKM
-            </div>
+            <>
+              {profile && profile.username !== "nurrozaaq" && (
+                <div
+                  onClick={() => move("Registrasi UMKM")}
+                  className=" h-32 font-inter outline py-2 px-4 rounded-md mt-2 hover:scale-105 flex flex-col justify-around "
+                >
+                  <Icon active>
+                    <MdAddBusiness />
+                  </Icon>
+                  Buat UMKM
+                </div>
+              )}
+            </>
           )}
 
-          <Link
-            to={"/umkm/list"}
-            className="h-32 font-inter outline py-2 px-4 rounded-md mt-2 hover:scale-105 flex flex-col justify-around "
-          >
-            <Icon active>
-              <BsFillHousesFill />
-            </Icon>
-            Rekap UMKM
-          </Link>
+          {profile && profile.username === "nurrozaaq" && (
+            <Link
+              to={"/umkm/list"}
+              className="h-32 font-inter outline py-2 px-4 rounded-md mt-2 hover:scale-105 flex flex-col justify-around "
+            >
+              <Icon active>
+                <BsFillHousesFill />
+              </Icon>
+              Rekap UMKM
+            </Link>
+          )}
           <Link
             to={"/product/list"}
             className="h-32 font-inter outline py-2 px-4 rounded-md mt-2 hover:scale-105 flex flex-col justify-around "
