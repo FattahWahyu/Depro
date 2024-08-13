@@ -1,56 +1,66 @@
 import { MdSearch } from "react-icons/md";
 import Icon from "./Icon";
 import { useState } from "react";
-import ModalLayout from "../Layouts/ModalLayouts";
-import MobileDownload from "../Section/MobileDownload";
+import { useNavigate } from "react-router-dom";
 
-const Search = () => {
+const Search = ({ float = false }) => {
   const [isActive, setIsActive] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [contentModal, setContentModal] = useState("Account");
+  const [keyword, setKeyword] = useState("");
+  const navigate = useNavigate();
 
   const handleInputFocus = () => {
     setIsActive(true);
-    handleOpenModal();
+  };
+
+  const handleInputChange = (event) => {
+    setKeyword(event.target.value);
   };
 
   const handleInputBlur = () => {
     setIsActive(false);
   };
 
-
-  const handleOpenModal = (val = "Download Mobile App") => {
-    setContentModal(val);
-    setIsModalOpen(true);
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter" && keyword !== "") {
+      navigate(`/search/${keyword}`);
+    }
   };
-
-  const handleCloseModal = () => {
-    setIsModalOpen(false);
-  };
-
-  let modalContent = null;
-
-  if (contentModal === "Download Mobile App") {
-    modalContent = <MobileDownload />
-  }
 
   return (
-    <div className="absolute top-0 w-full h-full flex justify-center items-center px-4">
-      <div className="h-14 w-full max-w-[500px] bg-white rounded-2xl translate-y-14 opacity-90 flex items-center xl:mx-0 px-2 m-12">
-        <Icon active={isActive}><MdSearch /></Icon>
+    <div
+      className={`${
+        float
+          ? ""
+          : "absolute top-0 w-full h-full flex justify-center items-center px-4"
+      }`}
+    >
+      <div
+        className={`${
+          float ? "m-auto" : "h-14  xl:mx-0 px-2 m-12 translate-y-14 max-w-[500px]"
+        } w-full  bg-white rounded-2xl opacity-90 flex items-center`}
+      >
+        <Icon active={isActive}>
+          <MdSearch />
+        </Icon>
         <input
           type="text"
-          className="w-80 h-8 outline-none gap-2 font-semibold text-xl placeholder:font-semibold placeholder:text-lg md:placeholder:text-xl font-inter"
+          className="h-8 outline-none gap-2 font-semibold text-xl w-full placeholder:font-semibold placeholder:text-lg md:placeholder:text-xl font-inter"
           placeholder="Temukan produk lokal unggulan"
           onFocus={handleInputFocus}
           onBlur={handleInputBlur}
+          onChange={handleInputChange}
+          onKeyDown={handleKeyPress}
         />
+
+        <a
+          href={`/search/${keyword}`}
+          className={`${
+            keyword === "" ? "hidden" : ""
+          } bg-[#05C6FB] text-white py-2 px-4 rounded-lg w-min ml-4 hover:bg-[#4B70F5]`}
+        >
+          Cari
+        </a>
       </div>
-      {isModalOpen && (
-        <ModalLayout title={contentModal} onClose={handleCloseModal}>
-          {modalContent}
-        </ModalLayout>
-      )}
     </div>
   );
 };
