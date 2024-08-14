@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import React from "react";
 import QRCode from "qrcode.react";
 
@@ -38,7 +39,7 @@ const QRCodeGenerator = ({ id }) => {
   return (
     <div className="flex flex-col justify-center items-center gap-5 my-4">
       <div id="qrcode" className="p-4 bg-white">
-        <QRCode value={`depro-zeta.vercel.app/product/${id}`} size={150} />
+        <QRCode value={`${process.env.ADDRESS}/product/${id}`} size={150} />
       </div>
       {id && (
         <button
