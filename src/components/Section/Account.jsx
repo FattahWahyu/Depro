@@ -150,6 +150,15 @@ const Account = ({ move }) => {
                 </Icon>
                 Manajemen Impact
               </Link>
+              <Link
+                to={"/product/list"}
+                className="h-32 font-inter outline py-2 px-4 rounded-md mt-2 hover:scale-105 flex flex-col justify-around "
+              >
+                <Icon active>
+                  <MdList />
+                </Icon>
+                Rekap Produk
+              </Link>
             </>
           ) : (
             <>
@@ -168,25 +177,28 @@ const Account = ({ move }) => {
           )}
 
           {profile && profile.username === "nurrozaaq" && (
-            <Link
-              to={"/umkm/list"}
-              className="h-32 font-inter outline py-2 px-4 rounded-md mt-2 hover:scale-105 flex flex-col justify-around "
-            >
-              <Icon active>
-                <BsFillHousesFill />
-              </Icon>
-              Rekap UMKM
-            </Link>
+            <>
+              <Link
+                to={"/umkm/list"}
+                className="h-32 font-inter outline py-2 px-4 rounded-md mt-2 hover:scale-105 flex flex-col justify-around "
+              >
+                <Icon active>
+                  <BsFillHousesFill />
+                </Icon>
+                Rekap UMKM
+              </Link>
+              <Link
+                to={"/product/list"}
+                className="h-32 font-inter outline py-2 px-4 rounded-md mt-2 hover:scale-105 flex flex-col justify-around "
+              >
+                <Icon active>
+                  <MdList />
+                </Icon>
+                Rekap Produk
+              </Link>
+            </>
           )}
-          <Link
-            to={"/product/list"}
-            className="h-32 font-inter outline py-2 px-4 rounded-md mt-2 hover:scale-105 flex flex-col justify-around "
-          >
-            <Icon active>
-              <MdList />
-            </Icon>
-            Rekap Produk
-          </Link>
+
           <div
             className="h-32 font-inter outline py-2 px-4 rounded-md mt-2 hover:scale-105 flex flex-col justify-around "
             onClick={handleLogout}
